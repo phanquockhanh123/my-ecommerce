@@ -1,13 +1,19 @@
 <template>
   <div class="home">
-    <h1>This is home</h1>
-    <v-icon>mdi-home</v-icon>
+    <UpperBanner />
+    <TheFeature />
   </div>
 </template>
 
 <script>
+import UpperBanner from '@/components/home_page/UpperBanner';
+import TheFeature from '@/components/home_page/TheFeature';
 
 export default {
-  name: "HomeView"
+  name: "HomeView",
+  components: {
+    UpperBanner,
+    TheFeature
+  }
 };
 </script>
