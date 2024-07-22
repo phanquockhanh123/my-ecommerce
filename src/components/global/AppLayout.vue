@@ -9,6 +9,7 @@
 
             <AppNav />
 
+            <FixedNav />
             <AppFooter />
         </v-layout>
     </div>
@@ -17,11 +18,14 @@
 import AppNav from './AppNav.vue';
 import CartDrawer from './CartDrawer.vue';
 import AppFooter from './AppFooter.vue';
+import FixedNav from './FixedNav.vue';
+
 export default {
     components: {
         CartDrawer,
         AppNav,
-        AppFooter
+        AppFooter,
+        FixedNav
     },
     data: () => ({
         drawer: true,

@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar">
-    <v-app-bar color="green" class="pt-3" height="fit-container">
+    <v-app-bar color="#000a5d" class="pt-3" height="fit-content" absolute>
       <v-container fluid>
         <v-row class="mt-6">
           <v-col cols="3">
