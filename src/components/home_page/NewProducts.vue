@@ -1,0 +1,139 @@
+<template>
+  <div class="new-products py-12">
+    <div class="title d-flex justify-center align-center">
+      <h2 class="text-center flex-grow-1" style="font-weight: 900; font-size: 20px">
+        New Products
+      </h2>
+      <a href="#" class="text-black">Show All</a>
+    </div>
+    <v-container fluid>
+      <v-row>
+        <v-col cols="7" v-if="!products.length" class="pt-14"
+          ><v-row>
+            <v-col cols="4" v-for="num in 4" :key="num">
+              <v-skeleton-loader type="image, article">
+
+              </v-skeleton-loader>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="7" v-else  class="pt-14">
+          <Swiper
+            :pagination="{ el: '.swiper-pagination', clickable: true }"
+            :modules="modules"
+            :slides-per-view="4"
+            :space-between="35"
+            class="pb-9 px-5 pt-10"
+            :autoplay="{ delay: 3000 }"
+          >
+            <swiper-slide v-for="item in products" :key="item.id">
+              <v-card elevation="0" class="pb-5">
+                <v-hover v-slot="{ isHovering, props }">
+                  <div class="img-parent" style="height: 200px; overflow: hidden">
+                    <img
+                      :src="
+                        showenItem[item.title] ? showenItem[item.title] : item.thumbnail
+                      "
+                      class="w-100"
+                      :style="`height: 200px; transition: 0.5s all ease-in-out; scale: ${
+                        isHovering ? 1.05 : 1
+                      }; cursor: pointer`"
+                      alt=""
+                      v-bind="props"
+                    />
+                  </div>
+                </v-hover>
+
+                <v-card-text class="pl-0 pb-1">
+                  ({{ item.title }})
+                  {{
+                    item.description + " " + item.description.split(" ").length <= 4
+                      ? item.description
+                      : item.description
+                          .split(" ")
+                          .slice(0, 6 - item.title.split(" ").length)
+                          .join(" ") + " ..."
+                  }}
+                </v-card-text>
+                <v-rating
+                  v-model="item.rating"
+                  half-increments
+                  readonly
+                  color="yellow-darken-2"
+                  size="x-small"
+                  density="compact"
+                >
+                </v-rating>
+                <v-card-text>
+                  <del>{{ item.price }}</del> From
+                  <span class="text-red" style="font-weight: 900; font-size: 16px"
+                    >${{
+                      Math.ceil(item.price - item.price * (item.discountPercentage / 100))
+                    }}</span
+                  >
+                </v-card-text>
+                <v-btn-toggle v-model="showenItem[item.title]">
+                  <v-btn
+                    v-for="(pic, i) in item.images"
+                    :value="pic"
+                    :key="i"
+                    size="x-small"
+                    rounded="xl"
+                    :ripple="false"
+                  >
+                    <img
+                      :src="pic"
+                      width="30"
+                      height="30"
+                      alt=""
+                      style="border: 1px solid rgb(135, 135, 1); border-radius: 50%"
+                    />
+                  </v-btn>
+                </v-btn-toggle>
+                <div class="mt-5">
+                  <v-btn
+                    denisity="combact"
+                    class="py-2 px-12"
+                    style="text-transform: none; border-radius: 30px"
+                    >Choose Options</v-btn
+                  >
+                </div>
+              </v-card>
+            </swiper-slide>
+
+            <div class="swiper-pagination"></div>
+          </Swiper>
+        </v-col>
+        <v-col cols="5">
+          <img src="@/assets/images/vr-banner.webp" class="w-100" alt="" />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
+</template>
+
+<script>
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import { Navigation, Pagination, Autoplay } from "swiper";
+import { VSkeletonLoader } from "vuetify/lib/components/index.mjs";
+export default {
+  props: {
+    products: {
+      type: Array,
+    },
+  },
+  setup() {
+    return {
+      modules: [Pagination, Navigation, Autoplay],
+    };
+  },
+  components: {
+    Swiper,
+    SwiperSlide,
+    VSkeletonLoader,
+  },
+  data: () => ({
+    showenItem: {},
+  }),
+};
+</script>

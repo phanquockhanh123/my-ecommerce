@@ -11,8 +11,8 @@ const Emitter = mitt();
 
 // Swiper config
 import "swiper/css";
- 
-
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 // Vuetify
 import "vuetify/styles";

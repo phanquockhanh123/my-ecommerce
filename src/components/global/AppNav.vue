@@ -126,12 +126,9 @@
               class="links d-flex text-white justify-space-between"
               style="list-style: none"
             >
-              <li>Theme Demo</li>
-              <li>Shop</li>
-              <li>Product</li>
-              <li>New In</li>
-              <li>Must Have</li>
-              <li>Collections</li>
+              <li v-for="category in categories" :key="category.title">
+                <router-link :to="{name: 'products_category', params: {category: category.route,title: category.title}}" style="color:white;text-decoration:none;">{{ category.title }}</router-link>
+              </li>
             </ul>
           </v-col>
           <v-col col="2"></v-col>
@@ -195,12 +192,18 @@
 </template>
 
 <script>
+import { productsModule } from '@/store/products';
+import { mapState } from 'pinia';
+
 export default {
   inject: ["Emitter"],
   methods: {
     openCart() {
       this.Emitter.emit("openCart");
     },
+  },
+  computed: {
+    ...mapState(productsModule, ["categories"]),
   },
   data: () => ({
     langs: [

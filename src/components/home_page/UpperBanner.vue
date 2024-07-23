@@ -16,6 +16,8 @@
                 class="py-2 px-10"
                 denisity="combact"
                 style="border-radius: 30px; text-transform: none"
+                height="50"
+                weight="160"
                 >Shop Now</v-btn
               >
             </div>
