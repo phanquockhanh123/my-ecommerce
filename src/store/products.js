@@ -6,6 +6,7 @@ export const productsModule = defineStore("productsModule", {
     flashDeals: [],
     newProducts: [],
     topProducts: [],
+    productDetail: [],
     categories: [
       {
         title: "Beauty",
@@ -50,6 +51,15 @@ export const productsModule = defineStore("productsModule", {
         .get(`https://dummyjson.com/products/category/${category}`)
         .then((res) => {
           this.cateProducts = res.data.products;
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+    },
+    async getProductDetail(id) {
+      await axios
+        .get(`https://dummyjson.com/products/${id}`)
+        .then((res) => {
+          this.productDetail = res.data.products;
           console.log(res);
         })
         .catch((err) => console.log(err));
