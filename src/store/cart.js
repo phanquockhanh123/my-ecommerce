@@ -15,6 +15,10 @@ export const cartStore = defineStore("cartStore", ({
           break;
         }
       }
+
+      if (!exists) {
+        this.cartItems.push(item);
+      }
       this.cartItems.push(item);
       
       localStorage.setItem('cart-items', JSON.stringify(this.cartItems))
