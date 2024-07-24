@@ -1,13 +1,17 @@
 <template>
   <app-layout>
     <router-view />
+    
+    <QuickView />
   </app-layout>
 </template>
 <script>
 import AppLayout from "@/components/global/AppLayout";
+import QuickView from '@/components/global/QuickView';
 export default  {
   components: {
-    AppLayout
+    AppLayout,
+    QuickView
   }
 }
 </script>

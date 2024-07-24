@@ -55,12 +55,11 @@ export const productsModule = defineStore("productsModule", {
         })
         .catch((err) => console.log(err));
     },
-    async getProductDetail(id) {
+    async getSingleProduct(productId) {
       await axios
-        .get(`https://dummyjson.com/products/${id}`)
+        .get(`https://dummyjson.com/products/${productId}`)
         .then((res) => {
-          this.productDetail = res.data.products;
-          console.log(res);
+          this.productDetail = res.data;
         })
         .catch((err) => console.log(err));
     },
