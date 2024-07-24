@@ -164,11 +164,12 @@ export default {
         this.loading = false;
       }, 1000)
     })
-  },
+  },  
   methods: {
     ...mapActions(cartStore, ["addItem"]),
     addToCart(item) {
       item.quantity = this.quantity;
+
       this.addItem(item);
     }
   }

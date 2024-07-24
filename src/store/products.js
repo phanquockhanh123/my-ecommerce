@@ -51,7 +51,6 @@ export const productsModule = defineStore("productsModule", {
         .get(`https://dummyjson.com/products/category/${category}`)
         .then((res) => {
           this.cateProducts = res.data.products;
-          console.log(res);
         })
         .catch((err) => console.log(err));
     },
