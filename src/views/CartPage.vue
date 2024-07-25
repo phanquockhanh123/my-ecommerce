@@ -314,7 +314,7 @@
                 density="compact"
                 height="45"
                 class="w-100 text-white"
-                >Checkout</v-btn
+                >Caculator Shipping</v-btn
               >
             </v-card-actions>
             <v-divider length="100%" color="black"></v-divider>
@@ -334,6 +334,7 @@
                 density="compact"
                 height="45"
                 class="w-100 text-white"
+                @click="toCheckout"
                 >Proceed to Checkout</v-btn
               >
             </v-card-actions>
@@ -375,7 +376,11 @@ export default {
     this.getCartItems();
   },
   methods: {
-    ...mapActions(cartStore, ["getCartItems", "deleteItems"]),
+    ...mapActions(cartStore, ["getCartItems", "deleteItems", "setToLocalStorage"]),
+    toCheckout() {
+      this.setToLocalStorage();
+      this.$router.push({name: 'checkout'});
+    }
   },
   computed: {
     ...mapState(cartStore, ["cartItems"]),

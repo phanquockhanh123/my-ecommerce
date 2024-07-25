@@ -26,6 +26,11 @@ const routes = [
     path: "/cart-page",
     name: "cart_page",
     component: () => import('@/views/CartPage'),
+  },
+  {
+    path: "/checkout",
+    name: "checkout",
+    component: () => import('@/views/CheckOut'),
   }
 ];
 

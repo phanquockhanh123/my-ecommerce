@@ -155,6 +155,7 @@
             density="compact"
             height="45"
             class="w-100"
+            @click="toCheckout"
             >Checkout</v-btn
           >
           <v-btn
@@ -195,7 +196,11 @@ export default {
     this.getCartItems();
   },
   methods: {
-    ...mapActions(cartStore, ["getCartItems", "deleteItems"]),
+    ...mapActions(cartStore, ["getCartItems", "deleteItems", "setToLocalStorage"]),
+    toCheckout() {
+      this.setToLocalStorage();
+      this.$router.push({name: 'checkout'});
+    }
   },
   computed: {
     ...mapState(cartStore, ["cartItems"]),
