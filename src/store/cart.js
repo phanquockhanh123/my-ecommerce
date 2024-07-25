@@ -10,15 +10,15 @@ export const cartStore = defineStore("cartStore", {
       let exists = false;
 
       for (let i = 0; i < this.cartItems.length; i++) {
-        if (this.cartItems[i].id == item.id) {
-          this.cartItems[i].quantity += item.quantity;
+        if (this.cartItems[i].id === item.id) {
+          this.cartItems[i].quantity = this.cartItems[i].quantity + item.quantity;
           exists = true;
           break;
         }
       }
 
       if (!exists) {
-        this.cartItems.push(JSON.parse(JSON.stringify(JSON.stringify(item))));
+        this.cartItems.push(item);
       }
 
       localStorage.setItem("cart-items", JSON.stringify(this.cartItems));

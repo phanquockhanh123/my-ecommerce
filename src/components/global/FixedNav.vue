@@ -24,10 +24,10 @@
               ></svg>
             <div
                 class="wishlists d-flex flex-column align-center text-orange"
-                style="cursor: pointer"
+                :style="`cursor: pointer;pointer-events: ${$route.name == 'cart_page' ? 'none' : 'unset'}`"
                 @click="openCart"
               >
-              <v-badge location="right top " content="2" color="blue" offsetX="-15"></v-badge>
+              <v-badge  :content="cartItems.length" v-if="cartItems.length" location="right top "  color="blue" offsetX="-15"></v-badge>
                 <svg
                   viewBox="0 0 1024 1024"
                   xmlns="http://www.w3.org/2000/svg"
@@ -57,12 +57,13 @@
 <script>
 import { productsModule } from '@/store/products';
 import { mapState } from 'pinia';
-
+import { cartStore } from '@/store/cart';
 
 export default {
   inject: ["Emitter"],
   computed: {
-        ...mapState(productsModule, ["categories"])
+        ...mapState(productsModule, ["categories"]),
+        ...mapState(cartStore, ["cartItems"]),
     },
   methods: {
     openCart() {

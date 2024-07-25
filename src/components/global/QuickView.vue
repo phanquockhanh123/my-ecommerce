@@ -14,7 +14,7 @@
         "
         @click="dialog = false"
       >
-        mdi-close
+      mdi-close
       </v-icon>
       <v-card elevation="0" class="content_card">
         <v-container fluid class="bg-white pt-10 px-10">
@@ -31,7 +31,7 @@
                 type="article, article, article"
                 v-if="loading"
               ></v-skeleton-loader>
-              <v-tabs center-active height="220" v-model="tab">
+              <v-tabs center-active height="150" v-model="tab">
                 <v-tab
                   v-for="(img, i) in productDetail.images"
                   :key="i"
@@ -126,6 +126,7 @@
                     density="compact"
                     height="55"
                     @click="addToCart(productDetail)"
+                    :loading="btnLoading"
                     >Add To Cart</v-btn
                   >
                 </v-card-actions>
@@ -151,6 +152,7 @@ export default {
     quantity: 1,
     dialog: false,
     productDetail: "",
+    btnLoading: false,
   }),
   components: {
     VSkeletonLoader,
@@ -169,8 +171,16 @@ export default {
     ...mapActions(cartStore, ["addItem"]),
     addToCart(item) {
       item.quantity = this.quantity;
-
-      this.addItem(item);
+      this.btnLoading = true;
+      setTimeout(() => {
+        this.btnLoading = false;
+        
+        this.addItem(item);
+        this.Emitter.emit('openCart');
+        this.Emitter.emit('showMsg', item.title);
+        this.dialog = false;
+      }, 1000);
+      
     }
   }
 };
