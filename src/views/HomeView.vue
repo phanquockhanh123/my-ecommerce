@@ -3,7 +3,7 @@
     <UpperBanner />
     <TheFeature />
     <TopOffer />
-    <ProductsSwiper :products="flashDeals" title="Flash Deals" titleColor="red"/>
+    <ProductsSwiper :products="flashDeals" title="Flash Deals" titleColor="red" :index="0"/>
     <v-container fluid>
       <v-row>
         <v-col cols="6">
@@ -17,7 +17,7 @@
     <TopCategories />
     <NewProducts :products="newProducts"/>
     <QualityFeatures />
-    <ProductsSwiper :products="topProducts" title="Top Products" titleColor="blue"/>
+    <ProductsSwiper :products="topProducts" title="Top Products" titleColor="blue" :index="3"/>
     <v-container fluid>
       <v-row>
         <v-col cols="12">

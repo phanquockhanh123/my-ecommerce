@@ -9,6 +9,7 @@
       >
         {{ title }}
       </h2>
+      <route-link :to="{name: categories[index]}"></route-link>
       <a href="#" class="text-black" style="font-size: 14px">Shop All</a>
     </div>
     <v-container fluid v-if="!products.length">
@@ -27,7 +28,7 @@
       :space-between="35"
       class="pb-9 px-5"
       :navigation="{ prevIcon: '.swiper-prev', nextIcon: '.swiper-next' }"
-      :autoplay="{ delay: 3000 }"
+      :autoplay="{ delay: 3000, pauseOnMouseEnter: true,disableInteraction:false}"
     >
       <swiper-slide v-for="item in products" :key="item.id">
         <v-card elevation="0" class="pb-5">
@@ -97,7 +98,7 @@
               }}</span
             >
           </v-card-text>
-          <v-btn-toggle v-model="showenItem[item.title]">
+          <v-btn-toggle v-model="showenItem[item.title]" mandatory>
             <v-btn
               v-for="(pic, i) in item.images"
               :value="pic"
@@ -143,7 +144,6 @@
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import { Navigation, Pagination, Autoplay } from "swiper";
 import { VSkeletonLoader } from "vuetify/lib/components/index.mjs";
-
 export default {
   inject: ["Emitter"],
   methods: {
@@ -161,6 +161,9 @@ export default {
     titleColor: {
       type: String,
     },
+    index: {
+      type: Number
+    }
   },
   setup() {
     return {
@@ -174,7 +177,7 @@ export default {
   },
   data: () => ({
     showenItem: {},
-  }),
+  })
 };
 </script>
 

@@ -165,7 +165,7 @@
               >
               <v-icon>mdi-chevron-down</v-icon>
               <v-menu activator="#language-btn">
-                <v-list v-model:selected="selectedLang">
+                <v-list v-model:selected="selectedLang" mandatory>
                   <v-list-item
                     v-for="lang in langs"
                     :key="lang.lang"

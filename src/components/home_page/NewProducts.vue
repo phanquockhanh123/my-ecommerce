@@ -92,7 +92,7 @@
                     }}</span
                   >
                 </v-card-text>
-                <v-btn-toggle v-model="showenItem[item.title]">
+                <v-btn-toggle v-model="showenItem[item.title]" mandatory>
                   <v-btn
                     v-for="(pic, i) in item.images"
                     :value="pic"
@@ -153,6 +153,15 @@ export default {
     products: {
       type: Array,
     },
+    routeTitle: {
+      type: String
+    },
+    routeCategory: {
+      type: String
+    },
+    index: {
+      type: Number
+    }
   },
   setup() {
     return {

@@ -6,7 +6,6 @@
     <div class="categories pt-13">
       <div class="title d-flex justify-center align-center">
         <h2 class="text-center flex-grow-1" style="font-weight:900; font-size:20px;">Top Categories</h2>
-        <a href="#" class="text-black">Show All</a>
       </div>
       <v-container fluid>
         <v-row>

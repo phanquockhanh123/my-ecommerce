@@ -30,7 +30,19 @@
               left: calc(${parseInt((calcTotalPrice / 10000 ) * 100) <= 100 ? parseInt((calcTotalPrice / 10000 ) * 100) : 100}% - 30px);
               transition: 0.2s all ease-in-out;`
             "
-            fill="red"
+            :fill="
+                parseInt((calcTotalPrice / 10000) * 100) < 50
+                  ? 'red'
+                  : parseInt((calcTotalPrice / 10000) * 100) >= 50 &&
+                    parseInt((calcTotalPrice / 10000) * 100) < 100
+                  ? 'orange'
+                  : 'green'
+              "
+              :model-value="
+                parseInt((calcTotalPrice / 10000) * 100) <= 100
+                  ? parseInt((calcTotalPrice / 10000) * 100)
+                  : 100
+              "
             class="icon-shipping-truck"
             viewBox="0 0 40.55 24"
           >
@@ -58,7 +70,14 @@
             </g>
           </svg>
           <v-progress-linear
-            color="red"
+            :color="
+                parseInt((calcTotalPrice / 10000) * 100) < 50
+                  ? 'red'
+                  : parseInt((calcTotalPrice / 10000) * 100) >= 50 &&
+                    parseInt((calcTotalPrice / 10000) * 100) < 100
+                  ? 'orange'
+                  : 'green'
+              "
             :model-value="parseInt((calcTotalPrice / 10000 ) * 100) <= 100 ? parseInt((calcTotalPrice / 10000 ) * 100) : 100"
             height="10"
             striped
