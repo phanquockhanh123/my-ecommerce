@@ -9,7 +9,6 @@
       >
         {{ title }}
       </h2>
-      <route-link :to="{name: categories[index]}"></route-link>
       <a href="#" class="text-black" style="font-size: 14px">Shop All</a>
     </div>
     <v-container fluid v-if="!products.length">
@@ -160,9 +159,6 @@ export default {
     },
     titleColor: {
       type: String,
-    },
-    index: {
-      type: Number
     }
   },
   setup() {

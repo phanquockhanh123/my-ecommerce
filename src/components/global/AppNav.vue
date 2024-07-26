@@ -98,7 +98,8 @@
                 :style="`cursor: pointer;pointer-events: ${$route.name == 'cart_page' ? 'none' : 'unset'}`"
                 @click="openCart"
               >
-              <v-badge :content="cartItems.length" v-if="cartItems.length" location="right top " color="blue" offsetX="-15"></v-badge>
+              <v-badge :content="cartItems.length" v-if="cartItems.length" location="right top"
+               color="blue" offsetX="-15"></v-badge>
                 <svg
                   viewBox="0 0 1024 1024"
                   xmlns="http://www.w3.org/2000/svg"
