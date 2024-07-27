@@ -15,7 +15,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="7" v-else class="pt-14">
+        <v-col cols="12" md="7" v-else class="pt-14 order-1 order-md-0">
           <Swiper
             :pagination="{ el: '.swiper-pagination', clickable: true }"
             :modules="modules"
@@ -23,6 +23,7 @@
             :space-between="35"
             class="pb-9 px-5 pt-10"
             :autoplay="{ delay: 3000 }"
+            :breakpoints="breakpoints"
           >
             <swiper-slide v-for="item in products" :key="item.id">
               <v-card elevation="0" class="pb-5">
@@ -130,7 +131,7 @@
             <div class="swiper-pagination"></div>
           </Swiper>
         </v-col>
-        <v-col cols="5">
+        <v-col cols="12" md="5">
           <img src="@/assets/images/vr-banner.webp" class="w-100" alt="" />
         </v-col>
       </v-row>
@@ -175,6 +176,17 @@ export default {
   },
   data: () => ({
     showenItem: {},
+    breakpoints: {
+      0: {
+        slidesPerView: 1
+      },
+      580: {
+        slidesPerView: 2
+      },
+      1024: {
+        slidesPerView: 3
+      }
+    },
   }),
 };
 </script>
@@ -185,6 +197,19 @@ export default {
     .quick-view-btn {
       opacity: 1 !important;
     }
+  }
+}
+
+// media queries
+@media (max-width:580px) {
+  .new-products {
+    .img-parent {
+      height: 300px !important;
+    }
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    top:60%;
   }
 }
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div class="layout">
     <v-layout class="position-relative">
-      <CartDrawer />
+      <CartDrawer :windowWidth="windowWidth"/>
+      <MenuDrawer :windowWidth="windowWidth"/>
       <v-main
         :style="`padding-top: ${
           $route.name == 'checkout' ? '0px' : windowWidth <= 990 ? '60px' : '150px'
@@ -23,6 +24,7 @@ import CartDrawer from "./CartDrawer.vue";
 import AppFooter from "./AppFooter.vue";
 import FixedNav from "./FixedNav.vue";
 import ReponsiveNav from "./ReponsiveNav.vue";
+import MenuDrawer from "./MenuDrawer.vue";
 
 export default {
   components: {
@@ -31,6 +33,7 @@ export default {
     AppFooter,
     FixedNav,
     ReponsiveNav,
+    MenuDrawer
   },
   data: () => ({
     drawer: true,

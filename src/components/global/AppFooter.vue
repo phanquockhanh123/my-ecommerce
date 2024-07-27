@@ -3,7 +3,7 @@
         <v-footer :app="true" absolute color="grey-lighten-4">
             <v-container fluid class="px-0">
                 <v-row>
-                    <v-col cols="3">
+                    <v-col cols="12" sm="6" md="4" lg="3">
                         <v-card evelation="0" color="transparent">
                             <v-card-title class="px-0" style="font-size: 14px; font-weight: 700">Category</v-card-title>
                             <v-card-text class="pt-0 pb-3 px-0" v-for="category in categories"
@@ -12,7 +12,7 @@
                                     }}</router-link></v-card-text>
                         </v-card>
                     </v-col>
-                    <v-col cols="3">
+                    <v-col cols="12" sm="6" md="4" lg="3">
                         <v-card evelation="0" color="transparent">
                             <v-card-title class="px-0" style="font-size: 14px; font-weight: 700">FURTHUR
                                 INFO</v-card-title>
@@ -24,7 +24,7 @@
                             <v-card-text class="pt-0 pb-3 px-0">Blog</v-card-text>
                         </v-card>
                     </v-col>
-                    <v-col cols="3">
+                    <v-col cols="12" sm="6" md="4" lg="3">
                         <v-card evelation="0" color="transparent">
                             <v-card-title class="px-0" style="font-size: 14px; font-weight: 700">CUSTOMER
                                 SERVICE</v-card-title>
@@ -36,11 +36,11 @@
                             <v-card-text class="pt-0 px-0 pb-3">Consultant</v-card-text>
                         </v-card>
                     </v-col>
-                    <v-col cols="3" class="pt-8">
+                    <v-col cols="12" sm="6" md="4" lg="3" class="pt-8">
                         <v-card evelation="0" color="transparent">
                             <img src="@/assets/images/footer-logo.webp"
                              alt="" @click="$router.push({name: 'home'})" style="cursor:pointer;" />
-                            <v-card-text class="pt-0 px-0 pb-3 d-flex justify-center" style="gap:15px;"><span
+                            <v-card-text class="pt-0 px-0 pb-3 d-flex justify-start justify-sm-center" style="gap:15px;"><span
                                     class="pt-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
                                         width="12" fill="#686868">
                                         <path
@@ -120,7 +120,7 @@
                             </span>
                         </div>
                     </v-col>
-                    <v-col cols="12">
+                    <v-col cols="12" class="cards_img">
                         <div class="img-parent text-center mt-1">
                             <img src="https://new-ella-demo.myshopify.com/cdn/shop/files/trust_551fa8e0-5f24-4fbc-bf22-74c01b859a01.png?v=1639984732"
                                 alt="">
@@ -128,12 +128,12 @@
                     </v-col>
                 </v-row>
                 <v-row class="pt-7 bg-white">
-                    <v-col cols="6">
+                    <v-col cols="12" md="6" class="text-center" >
                         <p>&copy; {{ new Date().getFullYear() }} Ella Demo. All rights reserved. Powed by Phan Quoc
                             Khanh</p>
                     </v-col>
-                    <v-col cols="6">
-                        <div class="master-cards d-flex justify-end" style="gap:5px;">
+                    <v-col  cols="12" md="6" >
+                        <div class="master-cards d-flex justify-center justify-md-end" style="gap:5px;">
                             <span v-for="(svg, i) in svgs" :key="i" v-html="svg"></span>
                         </div>
                     </v-col>
@@ -164,3 +164,15 @@ export default {
     })
 }
 </script>
+
+<style lang="scss">
+@media (max-width:767px) {
+    .cards_img {
+        img {
+            width: 90%;
+        }
+    }
+}
+
+
+</style>

@@ -2,7 +2,7 @@
   <div class="quality-features pt-13 bg-grey-lighten-4">
     <v-container fluid>
       <v-row>
-        <v-col v-for="card in cards" :key="card.title">
+        <v-col cols="12" sm="6" md="3" lg="1"  v-for="card in cards" :key="card.title">
           <v-hover v-slot="{isHovering, props}">
             <v-card class="text-center d-flex align-center justify-center"
            height="300"

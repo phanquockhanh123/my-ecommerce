@@ -4,7 +4,7 @@
     <v-container fluid v-if="cateProducts">
       <v-card :loading="loading" class="pt-5">
         <v-row>
-          <v-col cols="3" v-for="item in cateProducts" :key="item.id" class="px-5">
+          <v-col cols="12" sm="6" md="4" lg="3" v-for="item in cateProducts" :key="item.id" class="px-10 px-sm-5 mt-8 mt-lg-0">
             <v-card elevation="0" class="pb-5">
               <v-hover v-slot="{ isHovering, props }">
                 <div class="img-parent position-relative" style="height: 200px">

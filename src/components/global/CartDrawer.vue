@@ -4,45 +4,56 @@
       class="pr-0 cart-drawer"
       v-model="drawer"
       location="right"
-      width="370"
+      :width="windowWidth <= 767 ? windowWidth / 2 : 370"
       temporary
     >
-      <v-card class="px-0">
-        <v-card-title  class="pl-0 pr-2 d-flex justify-space-between align-center w-100">Shopping Cart
-           <v-icon style="cursor: pointer;" @click="drawer = fasle">mdi-close</v-icon>
-           </v-card-title>
+      <v-card class="px-0" elevation="0">
+        <v-card-title
+          class="pl-0 pr-2 d-flex justify-space-between align-center w-100"
+          >Shopping Cart
+          <v-icon style="cursor: pointer" @click="drawer = false"
+            >mdi-close</v-icon
+          >
+        </v-card-title>
         <v-card-text class="px-0 py-0" style="color: #6f6f6f"
           >{{ cartItems.length }} Items</v-card-text
         >
-        <v-card-text class="px-0" style="color: #6f6f6f" v-if="!cartItems.length"
+        <v-card-text
+          class="px-0"
+          style="color: #6f6f6f"
+          v-if="!cartItems.length"
           >Free shipping for all orders over $10.000</v-card-text
         >
-        <v-card-text class="px-0 py-0" style="color: #6f6f6f" v-if="!cartItems.length"
+        <v-card-text
+          class="px-0 py-0"
+          style="color: #6f6f6f"
+          v-if="!cartItems.length"
           >Your cart is empty</v-card-text
         >
-        <div class="bar-parent mt-6 position-relative mr-2" v-if="cartItems.length">
+        <div
+          class="bar-parent mt-6 position-relative mr-2"
+          v-if="cartItems.length"
+        >
           <svg
             width="30"
-            :style="
-              `position: absolute;
+            :style="`position: absolute;
               bottom: 50%;
               z-index: 1;
-              left: calc(${parseInt((calcTotalPrice / 10000 ) * 100) <= 100 ? parseInt((calcTotalPrice / 10000 ) * 100) : 100}% - 30px);
-              transition: 0.2s all ease-in-out;`
-            "
+              left: calc(${parseInt((calcTotalPrice / 10000) * 100) <= 100 ? parseInt((calcTotalPrice / 10000) * 100) : 100}% - 30px);
+              transition: 0.2s all ease-in-out;`"
             :fill="
-                parseInt((calcTotalPrice / 10000) * 100) < 50
-                  ? 'red'
-                  : parseInt((calcTotalPrice / 10000) * 100) >= 50 &&
+              parseInt((calcTotalPrice / 10000) * 100) < 50
+                ? 'red'
+                : parseInt((calcTotalPrice / 10000) * 100) >= 50 &&
                     parseInt((calcTotalPrice / 10000) * 100) < 100
                   ? 'orange'
                   : 'green'
-              "
-              :model-value="
-                parseInt((calcTotalPrice / 10000) * 100) <= 100
-                  ? parseInt((calcTotalPrice / 10000) * 100)
-                  : 100
-              "
+            "
+            :model-value="
+              parseInt((calcTotalPrice / 10000) * 100) <= 100
+                ? parseInt((calcTotalPrice / 10000) * 100)
+                : 100
+            "
             class="icon-shipping-truck"
             viewBox="0 0 40.55 24"
           >
@@ -71,27 +82,42 @@
           </svg>
           <v-progress-linear
             :color="
-                parseInt((calcTotalPrice / 10000) * 100) < 50
-                  ? 'red'
-                  : parseInt((calcTotalPrice / 10000) * 100) >= 50 &&
+              parseInt((calcTotalPrice / 10000) * 100) < 50
+                ? 'red'
+                : parseInt((calcTotalPrice / 10000) * 100) >= 50 &&
                     parseInt((calcTotalPrice / 10000) * 100) < 100
                   ? 'orange'
                   : 'green'
-              "
-            :model-value="parseInt((calcTotalPrice / 10000 ) * 100) <= 100 ? parseInt((calcTotalPrice / 10000 ) * 100) : 100"
+            "
+            :model-value="
+              parseInt((calcTotalPrice / 10000) * 100) <= 100
+                ? parseInt((calcTotalPrice / 10000) * 100)
+                : 100
+            "
             height="10"
             striped
           ></v-progress-linear>
         </div>
-        <v-card-text class="px-0 pt-2" style="color: #6f6f6f" v-if="cartItems.length && 10000 - calcTotalPrice > 0"
-          >Only ${{ 10000 - calcTotalPrice }} away from free shipping</v-card-text
+        <v-card-text
+          class="px-0 pt-2"
+          style="color: #6f6f6f"
+          v-if="cartItems.length && 10000 - calcTotalPrice > 0"
+          >Only ${{ 10000 - calcTotalPrice }} away from free
+          shipping</v-card-text
         >
-        <v-card-text class="px-0 pt-2" style="color: #6f6f6f" v-if="cartItems.length && 10000 - calcTotalPrice <=  0"
-          >Your order now is included free shipping </v-card-text
-        >
+        <v-card-text
+          class="px-0 pt-2"
+          style="color: #6f6f6f"
+          v-if="cartItems.length && 10000 - calcTotalPrice <= 0"
+          >Your order now is included free shipping
+        </v-card-text>
         <v-card-actions v-if="!cartItems.length">
           <v-btn
-            style="text-transform: none; border-color: black; border-radius: 30px"
+            style="
+              text-transform: none;
+              border-color: black;
+              border-radius: 30px;
+            "
             class="w-100"
             variant="outlined"
             density="compact"
@@ -110,11 +136,15 @@
         style="overflow-y: auto"
       >
         <v-container class="px-0">
-          <v-row v-for="item in cartItems" :key="item.id" class="align-center mb-4">
-            <v-col cols="5">
+          <v-row
+            v-for="item in cartItems"
+            :key="item.id"
+            class="align-center mb-4"
+          >
+            <v-col cols="12" sm="5">
               <img :src="item.thumbnail" class="w-100" alt="" />
             </v-col>
-            <v-col cols="7">
+            <v-col cols="12" sm="7">
               <v-card-title
                 class="px-0"
                 style="white-space: pre-wrap; font-size: 14px; line-height: 1.2"
@@ -125,14 +155,21 @@
               >
               <v-card-text class="px-0 pt-2 font-weight-bold">
                 ${{
-                  Math.ceil(item.price - item.price * (item.discountPercentage / 100)) *
-                  item.quantity
+                  Math.ceil(
+                    item.price - item.price * (item.discountPercentage / 100)
+                  ) * item.quantity
                 }}
               </v-card-text>
-              <div class="item-footer d-flex justify-space-between align-center">
+              <div
+                class="item-footer d-flex justify-space-between align-center"
+              >
                 <div
                   class="counter px-1"
-                  style="border-radius: 30px; border: 1px solid black; width: fit-content"
+                  style="
+                    border-radius: 30px;
+                    border: 1px solid black;
+                    width: fit-content;
+                  "
                 >
                   <v-icon
                     color="#a6a6a6"
@@ -142,7 +179,12 @@
                   >
                   <input
                     type="number"
-                    style="border: none; outline: none; width: 32px; font-size: 12px"
+                    style="
+                      border: none;
+                      outline: none;
+                      width: 32px;
+                      font-size: 12px;
+                    "
                     class="text-center py-2"
                     min="1"
                     value="1"
@@ -152,7 +194,9 @@
                     >mdi-plus</v-icon
                   >
                 </div>
-                <v-icon size="22 " @click="deleteItems(item.id)">mdi-close</v-icon>
+                <v-icon size="22 " @click="deleteItems(item.id)"
+                  >mdi-close</v-icon
+                >
               </div>
             </v-col>
           </v-row>
@@ -188,7 +232,7 @@
             density="compact"
             height="45"
             class="w-100 mx-0"
-            @click="$router.push({name: 'cart_page'})"
+            @click="$router.push({ name: 'cart_page' })"
             >View Cart</v-btn
           >
         </v-card-actions>
@@ -208,6 +252,11 @@ export default {
       drawer: true,
     };
   },
+  props: {
+    windowWidth: {
+      type: Number,
+    },
+  },
   mounted() {
     this.Emitter.on("openCart", () => {
       this.drawer = true;
@@ -215,11 +264,15 @@ export default {
     this.getCartItems();
   },
   methods: {
-    ...mapActions(cartStore, ["getCartItems", "deleteItems", "setToLocalStorage"]),
+    ...mapActions(cartStore, [
+      "getCartItems",
+      "deleteItems",
+      "setToLocalStorage",
+    ]),
     toCheckout() {
       this.setToLocalStorage();
-      this.$router.push({name: 'checkout'});
-    }
+      this.$router.push({ name: "checkout" });
+    },
   },
   computed: {
     ...mapState(cartStore, ["cartItems"]),
@@ -250,6 +303,18 @@ export default {
   &::-webkit-scrollbar-track {
     width: 5px;
     background-color: rgb(126, 125, 125);
+  }
+}
+
+@media (max-width: 580px) {
+  .drawer {
+    .v-card-text {
+      font-size: 12px;
+    }
+    button {
+      height: 30px !important;
+      font-size: 12px;
+    }
   }
 }
 </style>

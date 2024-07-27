@@ -9,7 +9,7 @@
       </div>
       <v-container fluid>
         <v-row>
-          <v-col cols="2" v-for="cat in categories" :key="cat.title">
+          <v-col cols="6" sm="4" md="3" lg="2" v-for="cat in categories" :key="cat.title">
             <v-card class="text-center py-3 " elevation="0">
               <v-hover v-slot="{ isHovering, props }">
                 <div class="img-parent" style="overflow: hidden;width:100%;height:200px">

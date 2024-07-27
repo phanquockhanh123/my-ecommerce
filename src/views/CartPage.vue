@@ -128,7 +128,7 @@
             >
           </v-card-actions>
         </v-col>
-        <v-col cols="8" v-if="cartItems.length">
+        <v-col cols="12" lg="8" v-if="cartItems.length">
           <v-table class="w-100">
             <thead>
               <tr>
@@ -216,7 +216,7 @@
           <v-divider length="100%" color="black"></v-divider>
           <v-divider length="100%" color="black"></v-divider>
           <v-divider length="100%" color="black"></v-divider>
-          <v-col cols="12">
+          <v-col cols="12" lg="4" class="px-3 mt-8 mt-lg-0">
             <v-card-text
               class="px-0 pt-2 d-flex align-center"
               style="color: #6f6f6f; gap: 10px"
@@ -245,7 +245,7 @@
             <img src="@/assets/images/cart-page-cards.webp" width="270" alt="" />
           </v-col>
         </v-col>
-        <v-col cols="4" class="px-3" v-if="cartItems.length">
+        <v-col cols="12" lg="4" class="px-3 mt-8 mt-lg-0" v-if="cartItems.length">
           <v-card elevation="0">
             <v-card-title style="font-size: 15px; font-weight: bold"
               >ORDER SUMMARY</v-card-title
@@ -411,6 +411,15 @@ export default {
   &::-webkit-scrollbar-track {
     width: 5px;
     background-color: rgb(126, 125, 125);
+  }
+}
+
+// media queries
+@media (max-width:767px) {
+  .cart-page {
+    table {
+      width: 800px !important;
+    }
   }
 }
 </style>

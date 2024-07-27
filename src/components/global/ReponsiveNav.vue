@@ -4,7 +4,7 @@
       <v-container>
         <v-row class="align-center">
           <v-col cols="4" class="d-flex align-center">
-            <v-app-bar-nav-icon> </v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click="openMenu"></v-app-bar-nav-icon>
 
             <svg data-icon="search" viewBox="0 0 512 512" width="19" class="ml-5">
               <path
@@ -68,6 +68,9 @@ export default {
   methods: {
     openCart() {
       this.Emitter.emit("openCart");
+    },
+    openMenu() {
+      this.Emitter.emit("openMenu");
     },
   },
   computed: {
