@@ -1,6 +1,6 @@
 <template>
   <div class="product-details pt-10">
-    <v-dialog v-model="dialog" max-width="900" max-height="500">
+    <v-dialog v-model="dialog" max-width="1200" max-height="600">
       <v-icon
         style="
           position: absolute;

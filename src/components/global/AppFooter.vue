@@ -40,7 +40,7 @@
                         <v-card evelation="0" color="transparent" class="card-shadow">
                             <img src="@/assets/images/footer-logo.webp"
                              alt="" @click="$router.push({name: 'home'})" style="cursor:pointer;" />
-                            <v-card-text class="pt-0 px-0 pb-3 d-flex justify-start justify-sm-center" style="gap:15px;"><span
+                            <v-card-text class="pt-0 px-0 pb-3 d-flex" style="gap:15px;"><span
                                     class="pt-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
                                         width="12" fill="#686868">
                                         <path

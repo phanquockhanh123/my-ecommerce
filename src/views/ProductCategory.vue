@@ -4,15 +4,26 @@
     <v-container fluid v-if="cateProducts">
       <v-card :loading="loading" class="pt-5">
         <v-row>
-          <v-col cols="12" sm="6" md="4" lg="3" v-for="item in cateProducts" :key="item.id" class="px-10 px-sm-5 mt-8 mt-lg-0">
-            <v-card elevation="0" class="pb-5">
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            v-for="item in cateProducts"
+            :key="item.id"
+            class="px-10 px-sm-5 mt-8 mt-lg-0"
+          >
+            <v-card elevation="0" class="pb-5 pl-10">
               <v-hover v-slot="{ isHovering, props }">
-                <div class="img-parent position-relative" style="height: 200px">
+                <div
+                  class="img-parent position-relative d-flex justify-center"
+                  style="height: 200px"
+                >
                   <img
                     :src="
                       showenItem[item.title] ? showenItem[item.title] : item.thumbnail
                     "
-                    class="w-100"
+                    class="image-css"
                     :style="`height: 200px; transition: 0.5s all ease-in-out; scale: ${
                       isHovering ? 1.05 : 1
                     }; cursor: pointer`"
@@ -43,14 +54,14 @@
                 </div>
               </v-hover>
 
-              <v-card-text class="pl-0 pb-1">
+              <v-card-text class="pl-0 pb-1 pt-15">
                 ({{ item.title }})
                 {{
-                  item.description + " " + item.description.split(" ").length <= 4
+                  item.description + " " + item.description.split(" ").length <= 20
                     ? item.description
                     : item.description
                         .split(" ")
-                        .slice(0, 6 - item.title.split(" ").length)
+                        .slice(0, 20 - item.title.split(" ").length)
                         .join(" ") + " ..."
                 }}
               </v-card-text>
@@ -85,7 +96,7 @@
                     width="30"
                     height="30"
                     alt=""
-                    style="border: 1px solid rgb(135, 135, 1); border-radius: 50%"
+                    style="border: 1px solid rgb(135, 135, 1);object-fit: cover;border-radius: 50%"
                   />
                 </v-btn>
               </v-btn-toggle>
@@ -152,6 +163,12 @@ export default {
   .img-parent:hover {
     .quick-view-btn {
       opacity: 1 !important;
+    }
+  }
+  .img-parent {
+    .image-css {
+      object-fit: cover !important;
+      height: 250px !important;
     }
   }
 }

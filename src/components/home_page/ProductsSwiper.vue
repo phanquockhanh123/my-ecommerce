@@ -32,22 +32,25 @@
       :breakpoints="breakpoints"
     >
       <swiper-slide v-for="item in products" :key="item.id">
-        <v-card elevation="0" class="pb-5">
+        <v-card elevation="0" class="pb-5 ml-15">
           <v-hover v-slot="{ isHovering, props }">
-            <div class="img-parent position-relative" style="height: 200px">
-              <img
+            <div class="img-parent position-relative align-content-center" style="height: 200px">
+              <div class="image-child d-flex align-center justify-center" >
+                <img
                 :src="
                   showenItem[item.title]
                     ? showenItem[item.title]
                     : item.thumbnail
                 "
-                class="w-100"
-                :style="`height: 200px; transition: 0.5s all ease-in-out; scale: ${
+                class="img-style"
+                :style="`height: 250px; transition: 0.5s all ease-in-out; scale: ${
                   isHovering ? 1.05 : 1
                 }; cursor: pointer`"
                 alt=""
                 v-bind="props"
               />
+              </div>
+              
               <v-btn
                 density="compact"
                 width="60"
@@ -72,10 +75,10 @@
             </div>
           </v-hover>
 
-          <v-card-text class="pl-0 pb-1">
+          <v-card-text class="pl-0 pb-1 pt-15">
             ({{ item.title }})
             {{
-              item.description.split(" ").length <= 20
+              item.description.split(" ").length <= 10
                 ? item.description
                 : item.description.split(" ").slice(0, 9).join(" ") + " ..."
             }}
@@ -246,6 +249,12 @@ export default {
   .products-swiper {
     .img-parent {
       height: 300px !important;
+      .image-child {
+        .img-style {
+          object-fit:cover;
+        }
+      }
+      
     }
   }
   .swiper-button-next,

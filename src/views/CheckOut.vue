@@ -10,7 +10,7 @@
             style="padding: 60px 40px 0px 120px"
           >
             <v-card-title class="font-weight-bold py-0"
-              >new-ella-market</v-card-title
+              >Kshop</v-card-title
             >
             <v-breadcrumbs
               :items="['Cart', 'Information']"
@@ -222,7 +222,7 @@
             elevation="0"
             width="100%"
             height="100%"
-            style="padding: 60px 120px 0px 40px"
+            style="padding: 60px 120px 0px 40px;"
             class="checkout-cart"
           >
             <v-card
@@ -231,7 +231,7 @@
               v-for="item in cartItems"
               :key="item"
               width="100%"
-              class="d-flex align-center justify-space-between mb-3"
+              class="d-flex align-center justify-space-between mb-3 pt-2"
             >
               <v-badge :content="item.quantity" color="grey-darken-1">
                 <img

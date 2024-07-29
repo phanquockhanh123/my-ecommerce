@@ -21,12 +21,12 @@
             :modules="modules"
             :slides-per-view="4"
             :space-between="35"
-            class="pb-9 px-5 pt-10"
+            class="pb-9 px-5 pt-10 ml-5"
             :autoplay="{ delay: 3000 }"
             :breakpoints="breakpoints"
           >
             <swiper-slide v-for="item in products" :key="item.id">
-              <v-card elevation="0" class="pb-5">
+              <v-card elevation="0" class="pb-5 pl-5" style="background-color: #f4eeee;border-radius: 10px;">
                 <v-hover v-slot="{ isHovering, props }">
                   <div class="img-parent position-relative" style="height: 200px;">
                     <img

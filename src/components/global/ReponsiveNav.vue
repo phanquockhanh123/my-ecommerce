@@ -51,7 +51,7 @@
               </g>
             </svg>
             <v-badge :content="cartItems.length" v-if="cartItems.length" location="right top"
-               color="blue" offsetX="-15"></v-badge>
+               color="blue" offsetX="-5"></v-badge>
           </v-col>
         </v-row>
       </v-container>
