@@ -7,14 +7,16 @@
             <img src="@/assets/images/logo.png" alt="" />
           </v-col>
           <v-col cols="5">
-            <div class="position-relative" style="width: 90%;">
+            <div class="position-relative" style="width: 90%">
               <input
-                type="search"
+                type="text"
                 name="navSearch"
                 id="navSearch"
-                style="width: 100%; border-radius: 30px; outline: none"
+                style="width: 100%; border-radius: 30px;outline: none"
                 class="py-3 px-5 bg-white"
                 placeholder="Search the store"
+                v-model="searchVal"
+                @keyup.enter="handleSearch"
               />
               <svg
                 data-icon="search"
@@ -34,17 +36,13 @@
             </div>
           </v-col>
           <v-col cols="4" class="ps-8">
-            <div
-              class="parent text-white d-flex justify-space-between align-center"
-            >
+            <div class="parent text-white d-flex justify-space-between align-center">
               <div class="variable">
                 <span>Available 24/7 at</span>
                 <br />
                 <strong>(0327) 018 337</strong>
               </div>
-              <div
-                class="wishlists d-flex flex-column align-center text-orange"
-              >
+              <div class="wishlists d-flex flex-column align-center text-orange">
                 <svg
                   viewBox="0 0 512 512"
                   class="icon icon-wishlist"
@@ -71,9 +69,7 @@
                 </svg>
                 <span>Wish Lists</span>
               </div>
-              <div
-                class="wishlists d-flex flex-column align-center text-orange"
-              >
+              <div class="wishlists d-flex flex-column align-center text-orange">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -95,11 +91,18 @@
               </div>
               <div
                 class="wishlists d-flex flex-column align-center text-orange"
-                :style="`cursor: pointer;pointer-events: ${$route.name == 'cart_page' ? 'none' : 'unset'}`"
+                :style="`cursor: pointer;pointer-events: ${
+                  $route.name == 'cart_page' ? 'none' : 'unset'
+                }`"
                 @click="openCart"
               >
-              <v-badge :content="cartItems.length" v-if="cartItems.length" location="right top"
-               color="blue" offsetX="-15"></v-badge>
+                <v-badge
+                  :content="cartItems.length"
+                  v-if="cartItems.length"
+                  location="right top"
+                  color="blue"
+                  offsetX="-15"
+                ></v-badge>
                 <svg
                   viewBox="0 0 1024 1024"
                   xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +131,14 @@
               style="list-style: none"
             >
               <li v-for="category in categories" :key="category.title">
-                <router-link :to="{name: 'products_category', params: {category: category.route,title: category.title}}" style="color:white;text-decoration:none;">{{ category.title }}</router-link>
+                <router-link
+                  :to="{
+                    name: 'products_category',
+                    params: { category: category.route, title: category.title },
+                  }"
+                  style="color: white; text-decoration: none"
+                  >{{ category.title }}</router-link
+                >
               </li>
             </ul>
           </v-col>
@@ -160,22 +170,12 @@
               style="gap: 5px; cursor: pointer"
             >
               <span v-html="selectedLang[0].icons"></span>
-              <span
-                >{{ selectedLang[0].lang }} /
-                {{ selectedLang[0].currency }}</span
-              >
+              <span>{{ selectedLang[0].lang }} / {{ selectedLang[0].currency }}</span>
               <v-icon>mdi-chevron-down</v-icon>
               <v-menu activator="#language-btn">
                 <v-list v-model:selected="selectedLang" mandatory>
-                  <v-list-item
-                    v-for="lang in langs"
-                    :key="lang.lang"
-                    :value="lang"
-                  >
-                    <v-list-item-title
-                      class="d-flex align-center"
-                      style="gap: 10px"
-                    >
+                  <v-list-item v-for="lang in langs" :key="lang.lang" :value="lang">
+                    <v-list-item-title class="d-flex align-center" style="gap: 10px">
                       <span v-html="lang.icons"></span>{{ lang.lang }} /
                       {{ lang.currency }}</v-list-item-title
                     >
@@ -193,16 +193,31 @@
 </template>
 
 <script>
-import { productsModule } from '@/store/products';
-import { mapState } from 'pinia';
-import { cartStore } from '@/store/cart';
+import { productsModule } from "@/store/products";
+import { mapState } from "pinia";
+import { cartStore } from "@/store/cart";
 
 export default {
   inject: ["Emitter"],
+  
   methods: {
     openCart() {
       this.Emitter.emit("openCart");
     },
+    handleSearch() {
+      if(this.$route.name === 'products_search') {
+        this.Emitter.emit("searchApp", {
+          q: this.searchVal
+        });
+      } else {
+        this.$router.push({
+          name: 'products_search',
+          query: {
+            q: this.searchVal
+          }
+        });
+      }
+    }
   },
   computed: {
     ...mapState(productsModule, ["categories"]),
@@ -398,6 +413,7 @@ export default {
         currency: "USD",
       },
     ],
+    searchVal: ""
   }),
 };
 </script>

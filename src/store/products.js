@@ -34,6 +34,7 @@ export const productsModule = defineStore("productsModule", {
       }
     ],
     cateProducts: [],
+    productsSearch: []
   }),
   actions: {
     async getProducts() {
@@ -62,5 +63,16 @@ export const productsModule = defineStore("productsModule", {
         })
         .catch((err) => console.log(err));
     },
+    async getProductsByName(params) {
+      await axios
+        .get('https://dummyjson.com/products/search', {
+          params
+        })
+        .then((res) => {
+          this.productsSearch = res.data.products;
+        })
+        .catch((err) => console.log(err));
+    },
   },
+
 });

@@ -31,7 +31,12 @@ const routes = [
     path: "/checkout",
     name: "checkout",
     component: () => import('@/views/CheckOut'),
-  }
+  },
+  {
+    path: "/products/search",
+    name: "products_search",
+    component: () => import('@/views/ProductSearch'),
+  },
 ];
 
 const router = createRouter({

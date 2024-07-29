@@ -4,13 +4,15 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12" md="7">
-          <img
-            :src="tab ? tab : productDetail.thumbnail"
-            class="w-100"
-            alt=""
-            height="500"
-            v-if="!loading"
-          />
+          <div class="image-css d-flex justify-center align-center">
+            <img
+              :src="tab ? tab : productDetail.thumbnail"
+              alt=""
+              height="500"
+              v-if="!loading"
+            />
+          </div>
+
           <v-skeleton-loader
             type="article, article, article"
             v-if="loading"
@@ -19,7 +21,7 @@
             <v-tab
               v-for="(img, i) in productDetail.images"
               :key="i"
-              class="mx-10"
+              class="mx-10 image-css" 
               :value="img"
             >
               <img :src="img" width="100" height="200" alt="" />
@@ -65,7 +67,7 @@
                 >${{
                   Math.ceil(
                     productDetail.price -
-                      productDetail.price * (productDetail.discountPercentage / 100) 
+                      productDetail.price * (productDetail.discountPercentage / 100)
                   )
                 }}</span
               >
@@ -93,7 +95,7 @@
                 Math.ceil(
                   productDetail.price -
                     productDetail.price * (productDetail.discountPercentage / 100)
-                )   * quantity
+                ) * quantity
               }}
             </v-card-text>
             <v-card-actions class="mt-7 w-100 px-0">
@@ -122,16 +124,18 @@ import { VSkeletonLoader } from "vuetify/lib/components/index.mjs";
 import { cartStore } from "@/store/cart";
 
 export default {
-  data: () => ({
-    loading: false,
-    btnLoading: false,
-    tab: "",
-    quantity: 1,
-  }),
+  data() {
+    return {
+      loading: false,
+      btnLoading: false,
+      tab: "",
+      quantity: 1,
+    };
+  },
   components: {
     VSkeletonLoader,
   },
-  inject: ['Emitter'],
+  inject: ["Emitter"],
   methods: {
     ...mapActions(productsModule, ["getSingleProduct"]),
     ...mapActions(cartStore, ["addItem"]),
@@ -140,21 +144,22 @@ export default {
       this.btnLoading = true;
       setTimeout(() => {
         this.btnLoading = false;
-        
+
         this.addItem(item);
-        this.Emitter.emit('openCart');
-        this.Emitter.emit('showMsg', item.title);
+        this.Emitter.emit("openCart");
+        this.Emitter.emit("showMsg", item.title);
         this.dialog = false;
       }, 1000);
-    }
+    },
   },
   async mounted() {
+    this.tab = "";
     this.loading = true;
     await this.getSingleProduct(this.$route.params.productId);
-    this.Emitter.on('showMsg', (data) => {
+    this.Emitter.on("showMsg", (data) => {
       this.itemTitle = data;
       this.bar = true;
-    })
+    });
     this.loading = false;
   },
   computed: {
@@ -162,3 +167,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.image-css {
+  object-fit: cover !important;
+}
+</style>
