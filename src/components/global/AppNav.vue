@@ -75,7 +75,8 @@
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                   class="icon icon-account"
                   viewBox="0 0 1024 1024"
-                  style="width: 28px; fill: orange"
+                  style="width: 28px; fill: orange;cursor:pointer;"
+                  @click="$router.push({ name: 'login_page' })"
                 >
                   <title>user</title>
                   <path

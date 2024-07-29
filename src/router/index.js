@@ -37,6 +37,11 @@ const routes = [
     name: "products_search",
     component: () => import('@/views/ProductSearch'),
   },
+  {
+    path: "/login",
+    name: "login_page",
+    component: () => import('@/views/LoginPage'),
+  },
 ];
 
 const router = createRouter({
