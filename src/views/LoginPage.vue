@@ -88,7 +88,7 @@ export default {
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("profile", JSON.stringify(res.data.users));
           setTimeout(() => {
-            this.$router.push("/");
+            this.$router.push("/admin");
           }, 2000); // Redirect to /
         } else {
           alert("Login failed!!");
