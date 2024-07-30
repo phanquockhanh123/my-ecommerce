@@ -1,5 +1,4 @@
 <template>
-  <app-layout>
     <router-view />
 
     <QuickView />
@@ -9,14 +8,11 @@
       </template>
     </v-snackbar>
 
-  </app-layout>
 </template>
 <script>
-import AppLayout from "@/components/global/AppLayout";
 import QuickView from '@/components/global/QuickView';
 export default {
   components: {
-    AppLayout,
     QuickView
   },
   data: () => ({

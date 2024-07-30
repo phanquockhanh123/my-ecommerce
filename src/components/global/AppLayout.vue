@@ -8,13 +8,13 @@
           $route.name == 'checkout' ? '0px' : windowWidth <= 990 ? '60px' : '150px'
         };`"
       >
-        <slot></slot>
+        <router-view></router-view>
       </v-main>
 
-      <AppNav v-if="$route.name != 'checkout' && windowWidth > 990" />
-      <ReponsiveNav v-show="windowWidth <= 990 && $route.name != 'checkout'" />
-      <FixedNav v-if="$route.name != 'checkout' && windowWidth > 990" />
-      <AppFooter v-if="$route.name != 'checkout'" />
+      <AppNav v-if=" windowWidth > 990" />
+      <ReponsiveNav v-show="windowWidth <= 990" />
+      <FixedNav v-if=" windowWidth > 990" />
+      <AppFooter/>
     </v-layout>
   </div>
 </template>

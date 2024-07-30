@@ -249,7 +249,7 @@ export default {
   inject: ["Emitter"],
   data() {
     return {
-      drawer: true,
+      drawer: false,
     };
   },
   props: {
