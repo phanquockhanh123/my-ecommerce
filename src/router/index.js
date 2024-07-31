@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import AppLayout from "../components/global/AppLayout.vue";
 import HomeView from "@/views/HomeView.vue";
 import AdminLayout from "../components/admin/layout/AdminLayout.vue";
+import AdminCategory from "../components/admin_page/AdminCategory.vue"
+import AdminProduct from "@/components/admin_page/AdminProduct.vue";
 
 const routes = [
   {
@@ -56,6 +58,17 @@ const routes = [
         path: "/",
         name: "admin_layout",
         component: AdminLayout,
+      },
+
+      {
+        path: "/categories",
+        name: "admin_categories",
+        component: AdminCategory,
+      },
+      {
+        path: "/products",
+        name: "admin_products",
+        component: AdminProduct,
       },
     ]
   }

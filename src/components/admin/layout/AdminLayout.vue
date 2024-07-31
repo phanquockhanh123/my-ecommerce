@@ -4,9 +4,9 @@
 
     <AdminSiderBar />
 
-    <v-main class="d-flex align-center justify-center" style="min-height: 300px">
-      Main Content
-    </v-main>
+    <v-main class="mt-10 ml-5">
+      <router-view></router-view>
+    </v-main> 
   </v-layout>
 </template>
 

@@ -1,11 +1,13 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-
+import Antd from "ant-design-vue";
 // Pinia config
 import { createPinia } from "pinia";
+import 'bootstrap/dist/css/bootstrap.css';
 
-// Emitter Config
+
+// Emitter Config0
 import mitt from "mitt";
 const Emitter = mitt();
 
@@ -26,4 +28,4 @@ const vuetify = createVuetify({
     directives
 });
 
-createApp(App).use(vuetify).provide("Emitter", Emitter).use(createPinia()).use(router).mount("#app");
+createApp(App).use(Antd).use(vuetify).provide("Emitter", Emitter).use(createPinia()).use(router).mount("#app");
