@@ -1,114 +1,112 @@
 <template>
-  <v-data-table
-    :items="desserts"
-    item-value="name"
-    show-select
-  >
-    <template v-slot:[`header.data-table-select`]="{ allSelected, selectAll, someSelected }">
-      <v-checkbox-btn
-        :indeterminate="someSelected && !allSelected"
-        :model-value="allSelected"
-        color="primary"
-        @update:model-value="selectAll(!allSelected)"
-      ></v-checkbox-btn>
-    </template>
-
-    <template v-slot:[`item.data-table-select`]="{ internalItem, isSelected, toggleSelect }">
-      <v-checkbox-btn
-        :model-value="isSelected(internalItem)"
-        color="primary"
-        @update:model-value="toggleSelect(internalItem)"
-      ></v-checkbox-btn>
-    </template>
-  </v-data-table>
+  <a-card title="List categories" class="w-100">
+    <div class="row mb-3">
+      <div class="col-12 d-flex justify-content-end">
+        <a-button type="primary">
+          <PlusOutlined />
+          New category
+        </a-button>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <a-table
+          :dataSource="listCates"
+          :loading="loading"
+          :pagination="false"
+          :columns="columns"
+          class="table"
+          rowKey="id"
+          :scroll="{ x: 1500, y: 650 }"
+        >
+          // eslint-disable-next-line no-unused-vars
+          <template #headerCell="{ column }"> </template>
+          <template #bodyCell="{ column, index, record }">
+            <template v-if="column.key === 'action'">
+              <a-space>
+                <a-button type="primary">
+                  <EditOutlined />
+                </a-button>
+                <a-button type="primary" danger>
+                  <DeleteOutlined />
+                </a-button>
+              </a-space>
+            </template>
+          </template>
+        </a-table>
+        <a-pagination
+          v-model:current="pageInfo.pageIndex"
+          v-model:pageSize="pageInfo.pageSize"
+          :total="pageInfo.totalElements"
+          show-size-changer
+          :page-size-options="['5', '10', '20', '50']"
+          :locale="{ items_per_page: '/ trang' }"
+          @show-size-change="onShowSizeChange"
+          @change="updatePageSize"
+        />
+      </div>
+    </div>
+  </a-card>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: 1,
+import { categoriesModule } from "@/store/categories";
+import { mapActions, mapState } from "pinia";
+
+export default {
+  data() {
+    return {
+      loading: false,
+      pageInfo: {
+        content: [],
+        pageIndex: 1,
+        pageSize: 20,
+        totalElements: 0,
+        totalPages: 0,
+      },
+      columns: [
+        {
+          title: "ID",
+          dataIndex: "id",
+          key: "id",
+        },
+        {
+          title: "Name",
+          dataIndex: "name",
+          key: "name",
+        },
+        {
+          title: "Description",
+          dataIndex: "description",
+          key: "description",
+        },
+        {
+          title: "Action",
+          dataIndex: "action",
+          key: "action",
+        },
+      ],
+      rules: [
+        {
+          name: {
+            required: true,
+            message: "Please enter category name",
+            trigger: "blur",
           },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: 1,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: 7,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: 8,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: 16,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: 0,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: 2,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: 45,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: 22,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: 6,
-          },
-        ],
-      }
-    },
-  }
+          errors: { message: "", data: "" },
+        },
+      ],
+    };
+  },
+  methods: {
+    ...mapActions(categoriesModule, ["getCategories"]),
+  },
+  computed: {
+    ...mapState(categoriesModule, ["listCates"]),
+  },
+  async mounted() {
+    this.loading = true;
+    await this.getCategories();
+    this.loading = false;
+  },
+};
 </script>
