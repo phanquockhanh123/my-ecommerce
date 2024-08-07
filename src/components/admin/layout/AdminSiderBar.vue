@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto mt-15" width="300" height="100vh">
+  <v-card class="mt-15" min-width="250" height="100vh">
     <v-list v-model:opened="open">
       <v-list-item prepend-icon="mdi-home" title="Home"></v-list-item>
 
@@ -33,7 +33,7 @@
         ></v-list-item>
       </v-list-group>
 
-      <v-list-group value="Categories">
+      <v-list-group value="Products">
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" title="Categories" prepend-icon="mdi-account-circle"></v-list-item>
         </template>
@@ -64,7 +64,8 @@ export default {
     ],
     categories: [
       ["List Categories", "mdi-plus-outline", { name: "admin_categories" }],
-      ["Categories", "mdi-file-outline", { name: "admin_products" }],
+      ["List Books", "mdi-file-outline", { name: "admin_books" }],
+      ["List Products", "mdi-file-outline", { name: "admin_products" }],
     ],
   }),
 };

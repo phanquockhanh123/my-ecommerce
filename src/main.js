@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import Antd from "ant-design-vue";
+import "./assets/main.css";
+
 // Pinia config
 import { createPinia } from "pinia";
 import 'bootstrap/dist/css/bootstrap.css';

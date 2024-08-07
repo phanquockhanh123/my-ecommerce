@@ -3,8 +3,8 @@ import AppLayout from "../components/global/AppLayout.vue";
 import HomeView from "@/views/HomeView.vue";
 import AdminLayout from "../components/admin/layout/AdminLayout.vue";
 import AdminCategory from "../components/admin_page/AdminCategory.vue"
-import AdminProduct from "@/components/admin_page/AdminProduct.vue";
-
+import AdminBook from "../components/admin_page/AdminBook.vue";
+import AdminProduct from "../components/admin_page/AdminProduct";
 const routes = [
   {
     path: "/",
@@ -64,6 +64,11 @@ const routes = [
         path: "/categories",
         name: "admin_categories",
         component: AdminCategory,
+      },
+      {
+        path: "/books",
+        name: "admin_books",
+        component: AdminBook,
       },
       {
         path: "/products",

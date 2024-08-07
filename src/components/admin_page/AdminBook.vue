@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-unused-vars -->
 <template>
-  <a-card title="List products" class="w-100">
+  <a-card title="List books" class="w-100">
     <!-- Form search -->
     <div class="d-flex mb-3 w-100">
       <div class="mb-3 me-3">
@@ -8,16 +8,39 @@
         <a-input v-model:value="search.title" placeholder="Title" />
       </div>
       <div class="mb-3 me-3">
-        <label for="category" class="form-label">Category</label>
-        <a-input v-model:value="search.category" placeholder="category" />
+        <label for="author" class="form-label">Author</label>
+        <a-input v-model:value="search.author" placeholder="Author" />
       </div>
       <div class="mb-3 me-3">
-        <label for="price" class="form-label">Range price</label>
-        <a-slider v-model:value="rangePriceVal" range :disabled="false" />
+        <label for="yearOfPublish" class="form-label">Year From</label>
+        <a-select
+          v-model:value="search.yearFrom"
+          placeholder="Select a year"
+          class="w-full d-flex"
+          :allowClear="true"
+        >
+          <a-select-option v-for="year in years" :key="year" :value="year">
+            {{ year }}
+          </a-select-option>
+        </a-select>
+      </div>
+
+      <div class="mb-3 me-3">
+        <label for="yearOfPublish" class="form-label">Year To</label>
+        <a-select
+          v-model:value="search.yearTo"
+          placeholder="Select a year"
+          class="w-full d-flex"
+          :allowClear="true"
+        >
+          <a-select-option v-for="year in years" :key="year" :value="year">
+            {{ year }}
+          </a-select-option>
+        </a-select>
       </div>
 
       <div class="mb-3 me-3 button-css-search">
-        <a-button class="btn btn-primary" @click.prevent="getProductsList(1)"
+        <a-button class="btn btn-primary" @click.prevent="getBooksList(1)"
           >Search</a-button
         >
       </div>
@@ -27,13 +50,13 @@
       >
         <a-button type="primary" class="me-3" @click="showDrawer">
           <PlusOutlined />
-          New product
+          New book
         </a-button>
         <a-button
           class="btn btn-danger"
           @click="confirmDeleteIds"
           :disabled="selectedRowKeys.length === 0"
-          >Delete products</a-button
+          >Delete Books</a-button
         >
       </div>
     </div>
@@ -42,7 +65,7 @@
       <span class="text-error" v-if="errors.search">{{ errors.search }}</span>
       <div class="col-12">
         <a-table
-          :dataSource="listProducts"
+          :dataSource="listBooks"
           :loading="loading"
           :pagination="false"
           :columns="columns"
@@ -104,11 +127,11 @@
         </a-table>
         <a-modal
           v-model:visible="isModalVisible"
-          title="Delete product"
-          @ok="deleteListProductIds"
+          title="Delete book"
+          @ok="deleteListBookIds"
           @cancel="handleCancel"
         >
-          <p>Are you sure you want to delete this products ?</p>
+          <p>Are you sure you want to delete this books ?</p>
         </a-modal>
         <a-pagination
           v-model:current="pageInfo.pageIndex"
@@ -124,16 +147,16 @@
     </div>
   </a-card>
 
-  <!-- A drawer create product view -->
+  <!-- A drawer create book view -->
   <a-drawer
-    title="product"
+    title="Book"
     :width="720"
     :visible="visible"
     :body-style="{ paddingBottom: '80px' }"
     @close="onClose"
   >
     <a-form
-      :model="product"
+      :model="book"
       :rules="rules"
       layout="vertical"
       enctype="multipart/form-data"
@@ -142,16 +165,16 @@
         <a-col :span="12">
           <a-form-item label="Title" name="title">
             <a-input
-              v-model:value="product.title"
+              v-model:value="book.title"
               placeholder="Please enter title"
             />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="Price" name="price">
+          <a-form-item label="Author" name="author">
             <a-input
-              v-model:value="product.price"
-              placeholder="Please enter price"
+              v-model:value="book.author"
+              placeholder="Please enter author"
             />
           </a-form-item>
         </a-col>
@@ -160,7 +183,7 @@
         <a-col :span="12">
           <a-form-item label="Category" name="categoryId">
             <a-select
-              v-model:value="saveproductCateIds"
+              v-model:value="saveBookCateIds"
               mode="tags"
               style="width: 100%; margin-right: 30px"
               placeholder="Tags Category"
@@ -173,7 +196,7 @@
           <a-form-item label="YearOfPublish" name="year">
             <a-select
               placeholder="Please a-s an year of publish"
-              v-model:value="product.year"
+              v-model:value="book.year"
             >
               <a-select-option
                 v-for="year in years"
@@ -189,14 +212,14 @@
         <a-col :span="12">
           <a-form-item label="Price" name="price">
             <a-input
-              v-model:value="product.price"
+              v-model:value="book.price"
               placeholder="Please enter price"
             />
           </a-form-item>
         </a-col>
         <a-col :span="12">
           <a-form-item label="Quantity" name="quantity">
-            <a-input v-model:value="product.quantity" :value="product.quantity" />
+            <a-input v-model:value="book.quantity" :value="book.quantity" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -204,7 +227,7 @@
         <a-col :span="24">
           <a-form-item label="Description" name="description">
             <a-textarea
-              v-model:value="product.description"
+              v-model:value="book.description"
               :rows="4"
               placeholder="please enter description"
             />
@@ -243,7 +266,92 @@
       }"
     >
       <a-button style="margin-right: 8px" @click="onClose">Cancel</a-button>
-      <a-button type="primary" @click.prevent="createProduct">Submit</a-button>
+      <a-button type="primary" @click.prevent="createBook">Submit</a-button>
+    </div>
+  </a-drawer>
+
+  <!-- A drawer borrow book view -->
+  <a-drawer
+    title="Borrow book"
+    :width="720"
+    :visible="borrowVisible"
+    :body-style="{ paddingBottom: '80px' }"
+    @close="onClose"
+  >
+    <a-form :model="book" :rules="rules" layout="vertical">
+      <a-row :gutter="16">
+        <a-col :span="12">
+          <a-form-item label="Title" name="title">
+            <a-input v-model:value="book.title" :disabled="true" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="Isbn" name="isbn">
+            <a-input v-model:value="book.isbn" :disabled="true" />
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row :gutter="16">
+        <a-col :span="12">
+          <a-form-item label="Author" name="author">
+            <a-input v-model:value="book.author" :disabled="true" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="Price" name="price">
+            <a-input v-model:value="book.price" :disabled="true" />
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row :gutter="16">
+        <a-col :span="12">
+          <a-form-item label="Quantity" name="quantity">
+            <a-input-number
+              id="inputNumber"
+              v-model:value="borrowBookData.quantity"
+              :min="1"
+              :max="book.quantityAvail"
+              :default="1"
+            >
+              <template #upIcon>
+                <ArrowUpOutlined />
+              </template>
+              <template #downIcon>
+                <ArrowDownOutlined />
+              </template>
+            </a-input-number>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="Date Borrow" name="Date borrow">
+            <a-range-picker
+              v-model:value="dateRangeVal"
+              :format="dateFormat"
+              :default-value="dateRangeValDefault"
+              :disabled-date="disabledDate"
+            />
+          </a-form-item>
+        </a-col>
+      </a-row>
+    </a-form>
+    <span class="text-error" v-if="errors.message">{{ errors.message }}</span>
+    <span class="text-error" v-if="errors.data">{{ errors.data }}</span>
+
+    <div
+      :style="{
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        width: '100%',
+        borderTop: '1px solid #e9e9e9',
+        padding: '10px 16px',
+        background: '#fff',
+        textAlign: 'right',
+        zIndex: 1,
+      }"
+    >
+      <a-button style="margin-right: 8px" @click="onClose">Cancel</a-button>
+      <a-button type="primary" @click.prevent="borrowBook">Submit</a-button>
     </div>
   </a-drawer>
 </template>
@@ -253,6 +361,8 @@ import {
   EditOutlined,
   DeleteOutlined,
   PlusOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
   CopyOutlined,
 } from "@ant-design/icons-vue";
 import axiosInterceptor from "@/service/axiosInteceptor";
@@ -261,37 +371,38 @@ import "vue3-toastify/dist/index.css";
 import moment from "moment";
 
 export default {
-  name: "ProductView",
+  name: "BookView",
   components: {
     EditOutlined,
     DeleteOutlined,
     PlusOutlined,
+    ArrowUpOutlined,
+    ArrowDownOutlined,
     CopyOutlined,
   },
   data() {
     return {
       selectedDate: null,
       isModalVisible: false,
-      productIdToDelete: null,
+      bookIdToDelete: null,
       loading: false,
       dateFormat: "YYYY/MM/DD HH:mm:ss",
-      listProducts: [],
+      listBooks: [],
       listCategory: [],
-      listCategoriesByproductId: [],
+      listCategoriesByBookId: [],
       listCategoriesTag: [],
       selectedRowKeys: [],
-      rangePriceVal: [],
       selectedYear: null,
       years: [],
       display: [],
       search: {
         title: "",
-        category: "",
-        priceFrom: "",
-        priceTo: "",
+        author: "",
+        yearFrom: "",
+        yearTo: "",
       },
       visibleCates: {},
-      product: {
+      book: {
         price: "",
         author: "",
         title: "",
@@ -300,6 +411,12 @@ export default {
         quantity: "",
         cateIds: [],
         filePath: "",
+      },
+      borrowBookData: {
+        quantity: "",
+        startDate: "",
+        endDate: "",
+        bookId: "",
       },
       dateRangeValDefault: [
         moment().startOf("day").format("YYYY/MM/DD HH:mm:ss"),
@@ -312,7 +429,7 @@ export default {
         search: "",
       },
       searchCateIds: [],
-      saveproductCateIds: [],
+      saveBookCateIds: [],
       columns: [
         {
           title: "ID",
@@ -321,9 +438,10 @@ export default {
           width: "100px"
         },
         {
-          title: "Sku",
-          dataIndex: "sku",
-          key: "sku"
+          title: "Isbn",
+          dataIndex: "isbn",
+          key: "isbn",
+          width: "200px"
         },
         {
           title: "Title",
@@ -331,19 +449,40 @@ export default {
           key: "title",
         },
         {
+          title: "Category",
+          dataIndex: "cateNames",
+          key: "cateNames",
+          width: "150px"
+        },
+        {
+          title: "Year",
+          dataIndex: "yearOfPublish",
+          key: "yearOfPublish",
+          width: "100px"
+        },
+        {
+          title: "Author",
+          dataIndex: "author",
+          key: "author",
+          width: "200px"
+        },
+        {
           title: "Price",
           dataIndex: "price",
-          key: "price"
+          key: "price",
+          width: "100px"
         },
         {
-          title: "Brand",
-          dataIndex: "brand",
-          key: "brand"
+          title: "Quantity Avail",
+          dataIndex: "quantityAvail",
+          key: "quantityAvail",
+          width: "100px"
         },
         {
-          title: "CategoryName",
-          dataIndex: "categoryName",
-          key: "categoryName"
+          title: "Created",
+          dataIndex: "created",
+          key: "created",
+          width: "100px"
         },
         {
           title: "Action",
@@ -368,17 +507,17 @@ export default {
       rules: {
         title: {
           required: true,
-          message: "Please enter product title",
+          message: "Please enter book title",
           trigger: "blur",
         },
         author: {
           required: true,
-          message: "Please enter product author",
+          message: "Please enter book author",
           trigger: "blur",
         },
         price: {
           required: true,
-          message: "Please enter product price",
+          message: "Please enter book price",
           trigger: "blur",
         },
         year: {
@@ -411,7 +550,7 @@ export default {
     },
   },
   mounted() {
-    this.getProductsList();
+    this.getBooksList();
     this.getCategories();
     this.generateYearList();
   },
@@ -420,7 +559,7 @@ export default {
       this.visibleCates = {
         ...this.visibleCates,
         [id]: !this.visibleCates[id]
-      };
+      }; 
     },
     convertToArray(data) {
       return data == null ? "" : data.split(",").map((name) => name.trim());
@@ -435,15 +574,15 @@ export default {
       this.visible = true;
       if (id != "" && !isNaN(id)) {
         this.id = id;
-        this.getProduct(id);
-        this.getCategoriesByproductId(id);
+        this.getBook(id);
+        this.getCategoriesByBookId(id);
       }
     },
     showBorrowDrawer(id = "") {
       this.borrowVisible = true;
       if (id != "" && !isNaN(id)) {
         this.id = id;
-        this.getProduct(id);
+        this.getBook(id);
       }
     },
     moment() {
@@ -453,23 +592,23 @@ export default {
       this.visible = false;
       this.borrowVisible = false;
       this.isSubmitting = false;
-      // product
-      this.product.title = "";
-      this.product.author = "";
-      this.product.price = "";
-      this.product.quantity = "";
-      this.product.description = "";
-      this.product.year = "";
-      this.saveproductCateIds = [];
+      // book
+      this.book.title = "";
+      this.book.author = "";
+      this.book.price = "";
+      this.book.quantity = "";
+      this.book.description = "";
+      this.book.year = "";
+      this.saveBookCateIds = [];
       this.filePath = "";
 
       this.previewImage = "";
       this.errors.message = "";
       this.errors.data = "";
-      // borrow product
-      this.borrowproductData.quantity = "";
-      this.borrowproductData.startDate = "";
-      this.borrowproductData.endDate = "";
+      // borrow book
+      this.borrowBookData.quantity = "";
+      this.borrowBookData.startDate = "";
+      this.borrowBookData.endDate = "";
       this.dateRangeVal = null;
       this.id = "";
     },
@@ -478,7 +617,7 @@ export default {
       console.log("Selected Rows: ", selectedRows);
       this.selectedRowKeys = selectedRowKeys;
       const selectedIds = selectedRows.map((row) => row.id);
-      console.log("Selected product IDs: ", selectedIds);
+      console.log("Selected Book IDs: ", selectedIds);
     },
     async getCategories() {
       await axiosInterceptor
@@ -503,6 +642,23 @@ export default {
           console.log(e.response.status);
         });
     },
+    async getCategoriesByBookId(id) {
+      await axiosInterceptor
+        .get(`/admin/books/cates/${id}`)
+        .then((response) => {
+          // JSON responses are automatically parsed.
+          if (response.data.success) {
+            const rs = response.data.data;
+            this.saveBookCateIds = rs.map((item) => ({
+              value: item.id,
+              label: item.name,
+            }));
+          }
+        })
+        .catch((e) => {
+          console.log(e.response.status);
+        });
+    },
     formattedDatetime(date) {
       return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
@@ -516,7 +672,7 @@ export default {
       this.pageInfo.pageIndex = pageIndex;
       this.pageInfo.pageSize = pageSize;
 
-      this.getProductsList();
+      this.getBooksList();
     },
     generateYearList() {
       const currentYear = new Date().getFullYear();
@@ -529,7 +685,7 @@ export default {
     tableScroll() {
       return this.screenWidth > 1300 ? { x: 1300 } : {};
     },
-    async getProductsList(pageIndex) {
+    async getBooksList(pageIndex) {
       this.loading = true;
 
       let dataParams = {
@@ -542,22 +698,36 @@ export default {
         dataParams.title = this.search.title.trim();
       }
 
-      if (this.search.category != "" && this.search.category != null) {
-        dataParams.category = this.search.category;
+      if (this.search.author != "" && this.search.author != null) {
+        dataParams.author = this.search.author.trim();
       }
 
-      
+      if (this.search.yearFrom && this.search.yearTo) {
+        dataParams.yearFrom = this.search.yearFrom;
+        dataParams.yearTo = this.search.yearTo;
+        if (this.search.yearTo < this.search.yearFrom) {
+          this.errors.search = "Year from less than year to";
+        }
+      } else if (this.search.yearFrom) {
+        this.errors.search =
+          "Year to cannot be empty or null when year from is provided";
+      } else if (this.search.yearTo) {
+        this.errors.search =
+          "Year from cannot be empty or null when year to is provided";
+      }
 
       if (this.errors.search != "") {
+        dataParams.yearFrom = "";
+        dataParams.yearTo = "";
         dataParams.title = "";
-        dataParams.category = "";
+        dataParams.author = "";
       }
       try {
-        const response = await axiosInterceptor.get("/admin/products", {
+        const response = await axiosInterceptor.get("/admin/books", {
           params: dataParams,
         });
 
-        this.listProducts = response.data.data.data;
+        this.listBooks = response.data.data.data;
 
         this.pageInfo.totalElements =
           response.data.data.pagination.total_record;
@@ -568,7 +738,7 @@ export default {
         this.loading = false;
         setTimeout(() => {
           this.errors.search = "";
-        }, 1000);
+        }, 10000);
       }
     },
     confirmDelete(id) {
@@ -594,19 +764,19 @@ export default {
 
       return color;
     },
-    async deleteListProductIds() {
+    async deleteListBookIds() {
       try {
-        const response = await axiosInterceptor.delete("/admin/products", {
+        const response = await axiosInterceptor.delete("/admin/books", {
           data: {
             ids: this.selectedRowKeys,
           },
         });
 
         this.isModalVisible = false;
-        this.getProductsList();
+        this.getBooksList();
 
         toast.success(
-          `Delete list products successfully with ids{} ${this.selectedRowKeys}`,
+          `Delete list books successfully with ids{} ${this.selectedRowKeys}`,
           {
             autoClose: 1000,
           }
@@ -619,36 +789,36 @@ export default {
         });
       }
     },
-    async createProduct() {
+    async createBook() {
       if (this.isSubmitting) {
         return;
       }
 
       this.isSubmitting = true;
-      this.product.filePath = this.filePath;
+      this.book.filePath = this.filePath;
 
       const formData = new FormData();
 
       if (
-        Array.isArray(this.saveproductCateIds) &&
-        this.saveproductCateIds.every((cate) => typeof cate === "number")
+        Array.isArray(this.saveBookCateIds) &&
+        this.saveBookCateIds.every((cate) => typeof cate === "number")
       ) {
-        this.product.cateIds = this.saveproductCateIds;
+        this.book.cateIds = this.saveBookCateIds;
       } else {
-        this.product.cateIds = this.saveproductCateIds.map((item) => item.value);
+        this.book.cateIds = this.saveBookCateIds.map((item) => item.value);
       }
-      formData.append("title", this.product.title);
-      formData.append("author", this.product.author);
-      formData.append("cateIds", this.product.cateIds);
-      formData.append("price", this.product.price);
-      formData.append("quantity", this.product.quantity);
-      formData.append("year", this.product.year);
-      formData.append("filePath", this.product.filePath);
-      formData.append("description", this.product.description);
+      formData.append("title", this.book.title);
+      formData.append("author", this.book.author);
+      formData.append("cateIds", this.book.cateIds);
+      formData.append("price", this.book.price);
+      formData.append("quantity", this.book.quantity);
+      formData.append("year", this.book.year);
+      formData.append("filePath", this.book.filePath);
+      formData.append("description", this.book.description);
 
       if (this.id == "") {
         axiosInterceptor
-          .post("/admin/products", formData, {
+          .post("/admin/books", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -657,16 +827,16 @@ export default {
             // JSON responses are automatically parsed.
 
             if (response.data.success == true) {
-              toast.success("Create products successfully!", {
+              toast.success("Create books successfully!", {
                 autoClose: 1000,
               });
 
               setTimeout(() => {
-                this.$router.push("/products");
+                this.$router.push("/books");
                 this.onClose();
-                this.getProductsList();
+                this.getBooksList();
                 this.searchCateIds = [];
-                this.saveproductCateIds = [];
+                this.saveBookCateIds = [];
               }, 2000);
             }
           })
@@ -682,7 +852,7 @@ export default {
           });
       } else {
         await axiosInterceptor
-          .put(`/admin/products/${this.id}`, formData, {
+          .put(`/admin/books/${this.id}`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -690,16 +860,16 @@ export default {
           .then((response) => {
             // JSON responses are automatically parsed.
             console.log(response.data.data);
-            toast.success(`Update product success with id ${this.id}`, {
+            toast.success(`Update book success with id ${this.id}`, {
               autoClose: 1000,
             });
 
             if (response.data.success == true) {
               setTimeout(() => {
-                this.$router.push("/products");
+                this.$router.push("/books");
                 this.onClose();
-                this.getProductsList();
-                this.saveproductCateIds = [];
+                this.getBooksList();
+                this.saveBookCateIds = [];
               }, 2000);
             }
           })
@@ -715,23 +885,65 @@ export default {
           });
       }
     },
-    getProduct(id) {
+    async borrowBook() {
+      if (this.isSubmitting) {
+        return;
+      }
+
+      this.isSubmitting = true;
+      this.borrowBookData.startDate = this.dateRangeVal[0].format(
+        "YYYY-MM-DD HH:mm:ss"
+      );
+      this.borrowBookData.endDate = this.dateRangeVal[1].format(
+        "YYYY-MM-DD HH:mm:ss"
+      );
+      this.borrowBookData.bookId = this.id ?? "";
+
+      await axiosInterceptor
+        .post("/admin/book_transactions", this.borrowBookData)
+        .then((response) => {
+          // JSON responses are automatically parsed.
+          console.log(response.data.data);
+          toast.success("Borrow book success!", {
+            autoClose: 1000,
+          });
+
+          if (response.data.success == true) {
+            setTimeout(() => {
+              this.$router.push("/books");
+              this.onClose();
+              this.getBooksList();
+            }, 2000);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          this.errors.data = e.response.data.data;
+          this.errors.message = e.response.data.message;
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.isSubmitting = false;
+          }, 2000);
+        });
+    },
+    getBook(id) {
       if (id != "") {
         axiosInterceptor
-          .get(`/admin/products/details/${id}`)
+          .get(`/admin/books/${id}`)
           .then((response) => {
             // JSON responses are automatically parsed.
-            this.product.title = response.data.data.title;
-            this.product.author = response.data.data.author;
-            this.product.price = response.data.data.price;
-            this.product.isbn = response.data.data.isbn;
-            this.product.price = response.data.data.price;
-            this.product.categoryId = "";
-            this.product.description = response.data.data.description;
-            this.product.quantity = response.data.data.quantity;
-            this.product.quantityAvail = response.data.data.quantityAvail;
-            this.product.year = response.data.data.yearOfPublish;
-            this.previewImage = `http://localhost:8081/static/public/product-images/${id}/${response.data.data.filePath}`;
+            this.book.title = response.data.data.title;
+            this.book.author = response.data.data.author;
+            this.book.price = response.data.data.price;
+            this.book.isbn = response.data.data.isbn;
+            this.book.price = response.data.data.price;
+            this.book.categoryId = "";
+            this.book.description = response.data.data.description;
+            this.book.quantity = response.data.data.quantity;
+            this.book.quantityAvail = response.data.data.quantityAvail;
+            this.book.year = response.data.data.yearOfPublish;
+            this.previewImage = `http://localhost:8081/static/public/book-images/${id}/${response.data.data.filePath}`;
           })
           .catch((e) => {
             console.log(e);
