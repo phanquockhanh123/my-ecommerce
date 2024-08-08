@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-unused-vars -->
 <template>
-  <a-card title="List categories" class="w-80" style="max-width:1600px">
+  <a-card title="List categories" class="w-100">
     <div class="row mb-3">
       <div class="col-12 d-flex justify-content-end">
         <a-button type="primary" @click="showDrawer">

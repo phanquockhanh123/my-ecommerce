@@ -434,14 +434,12 @@ export default {
         {
           title: "ID",
           dataIndex: "id",
-          key: "id",
-          width: "100px"
+          key: "id"
         },
         {
           title: "Isbn",
           dataIndex: "isbn",
           key: "isbn",
-          width: "200px"
         },
         {
           title: "Title",
@@ -452,37 +450,31 @@ export default {
           title: "Category",
           dataIndex: "cateNames",
           key: "cateNames",
-          width: "150px"
         },
         {
           title: "Year",
           dataIndex: "yearOfPublish",
           key: "yearOfPublish",
-          width: "100px"
         },
         {
           title: "Author",
           dataIndex: "author",
           key: "author",
-          width: "200px"
         },
         {
           title: "Price",
           dataIndex: "price",
           key: "price",
-          width: "100px"
         },
         {
           title: "Quantity Avail",
           dataIndex: "quantityAvail",
           key: "quantityAvail",
-          width: "100px"
         },
         {
           title: "Created",
           dataIndex: "created",
           key: "created",
-          width: "100px"
         },
         {
           title: "Action",
